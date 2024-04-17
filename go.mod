@@ -1,4 +1,4 @@
-module parquetx
+module github.com/modfin/parquetx
 
 go 1.22
 
