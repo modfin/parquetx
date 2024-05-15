@@ -13,7 +13,7 @@ import (
 var matchFirstCap = regexp.MustCompile("(.)([A-Z][a-z]+)")
 var matchAllCap = regexp.MustCompile("([a-z0-9])([A-Z])")
 
-func ToSnakeCase(str string) string {
+func toSnakeCase(str string) string {
 	snake := matchFirstCap.ReplaceAllString(str, "${1}_${2}")
 	snake = matchAllCap.ReplaceAllString(snake, "${1}_${2}")
 	return strings.ToLower(snake)
@@ -92,12 +92,12 @@ func NewJSONSchemaFromStruct(obj any) (str string, err error) {
 			}
 			valtype := typemap[ot.Elem().Name()]
 			if len(valtype) == 0 {
-				tag := &s1.JSONSchemaItemType{Tag: fmt.Sprintf("name=Value, repetitiontype=REQUIRED")}
+				tag := &s1.JSONSchemaItemType{Tag: fmt.Sprintf("name=right, repetitiontype=REQUIRED")}
 				tag.Fields = getFields(ot.Elem())
 				tags = append(tags, tag)
 			}
 			if len(valtype) > 0 {
-				tag := &s1.JSONSchemaItemType{Tag: fmt.Sprintf("name=Value, type=%s, repetitiontype=REQUIRED", valtype)}
+				tag := &s1.JSONSchemaItemType{Tag: fmt.Sprintf("name=right, type=%s, repetitiontype=REQUIRED", valtype)}
 				tags = append(tags, tag)
 			}
 
@@ -128,7 +128,7 @@ func NewJSONSchemaFromStruct(obj any) (str string, err error) {
 
 				//ignore item without parquet tag
 				parts := []string{
-					fmt.Sprintf("name=%s", ToSnakeCase(f.Name)),
+					fmt.Sprintf("name=%s", toSnakeCase(f.Name)),
 					fmt.Sprintf("inname=%s", f.Name),
 				}
 				name := f.Type.Kind().String()
